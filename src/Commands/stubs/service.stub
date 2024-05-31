@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Services;
+
+class DummyService
+{
+    /**
+     * Service method.
+     *
+     * @return void
+     */
+    public function someMethod()
+    {
+        // Add your service logic here
+    }
+}
