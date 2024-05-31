@@ -1,0 +1,6 @@
+<?php
+
+trait DummyTrait
+{
+    // Add your trait methods here
+}
