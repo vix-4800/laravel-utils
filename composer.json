@@ -1,0 +1,21 @@
+{
+    "name": "vix/laravel-utils",
+    "description": "A comprehensive collection of utilities, helpers for Laravel.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vix\\LaravelUtils\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vix",
+            "email": "Gordan.ei@protonmail.ch"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^9.0"
+    }
+}
