@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Helpers;
+
+class DummyHelper
+{
+    /**
+     * Helper property.
+     *
+     * @var mixed
+     */
+    protected $someProp;
+
+    /**
+     * Helper method.
+     *
+     * @return void
+     */
+    public function someMethod()
+    {
+        // Add your helper logic here
+    }
+}
