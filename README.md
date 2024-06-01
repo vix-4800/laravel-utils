@@ -7,5 +7,5 @@ A comprehensive collection of utilities, helpers for Laravel.
 You can install the package via Composer:
 
 ```bash
-composer vix/laravel-utils
+composer require vix/laravel-utils --dev
 ```
