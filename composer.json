@@ -17,7 +17,11 @@
     ],
     "require": {
         "php": "^8.0",
+<<<<<<< HEAD
         "laravel/framework": ">=9.0"
+=======
+        "laravel/framework": "^9.0"
+>>>>>>> 0ac27402a2d0f40ec8705dbe36350547bc042260
     },
     "require-dev": {},
     "minimum-stability": "dev",
