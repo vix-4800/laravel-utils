@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-class MakeTrait extends Command
+final class MakeTrait extends Command
 {
     /**
      * The name and signature of the console command.

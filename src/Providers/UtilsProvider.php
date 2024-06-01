@@ -11,7 +11,7 @@ use Vix\LaravelUtils\Commands\MakeInterface;
 use Vix\LaravelUtils\Commands\MakeService;
 use Vix\LaravelUtils\Commands\MakeTrait;
 
-class UtilsProvider extends ServiceProvider
+final class UtilsProvider extends ServiceProvider
 {
     /**
      * Register the service provider.

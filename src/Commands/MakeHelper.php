@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-class MakeHelper extends Command
+final class MakeHelper extends Command
 {
     /**
      * The name and signature of the console command.
