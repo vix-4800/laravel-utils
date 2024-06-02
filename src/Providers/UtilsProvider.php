@@ -43,6 +43,7 @@ final class UtilsProvider extends ServiceProvider
     {
         $this->registerBladeDirectives();
 
+        $this->registerPublishes();
     }
 
     /**
@@ -76,6 +77,17 @@ final class UtilsProvider extends ServiceProvider
 
             return "<?php echo $currency->value . number_format($amount, 2); ?>";
         });
-        // Any additional boot logic here
+    }
+
+    /**
+     * Register the publishable files.
+     *
+     * @return void
+     */
+    private function registerPublishes()
+    {
+        $this->publishes([
+            __DIR__ . '/../Commands/stubs' => base_path('resources/stubs'),
+        ], 'stubs');
     }
 }
