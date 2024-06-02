@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Vix\LaravelUtils\Providers;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use InvalidArgumentException;
 use Vix\LaravelUtils\Commands\{
@@ -17,6 +18,8 @@ use Vix\LaravelUtils\Commands\{
 use Vix\LaravelUtils\Enums\Currency;
 use Vix\LaravelUtils\Rules\Domain;
 use Vix\LaravelUtils\Rules\PhoneNumber;
+use App\Models\User;
+use Vix\LaravelUtils\Traits\CanBeAdmin;
 
 final class UtilsProvider extends ServiceProvider
 {
@@ -25,8 +28,9 @@ final class UtilsProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
+        if ($this->app->runningInConsole()) {
         $this->commands([
             MakeHelper::class,
             MakeInterface::class,
@@ -34,6 +38,7 @@ final class UtilsProvider extends ServiceProvider
             MakeTrait::class,
             MakeEnum::class,
         ]);
+        }
     }
 
     /**
@@ -41,11 +46,16 @@ final class UtilsProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerBladeDirectives();
-        $this->registerPublishes();
         $this->registerRules();
+
+        if ($this->app->runningInConsole()) {
+            $this->registerPublishes();
+        }
+
+        $this->registerGates();
     }
 
     /**
@@ -53,7 +63,7 @@ final class UtilsProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerBladeDirectives()
+    protected function registerBladeDirectives(): void
     {
         Blade::directive('datetime', function (string $expression): string {
             return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
@@ -77,7 +87,7 @@ final class UtilsProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerPublishes()
+    protected function registerPublishes(): void
     {
         $this->publishes([
             __DIR__ . '/../Commands/stubs' => base_path('resources/stubs'),
@@ -89,7 +99,7 @@ final class UtilsProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerRules()
+    protected function registerRules(): void
     {
         $this->app['validator']->extend('phone_number', function ($attribute, $value, $parameters, $validator) {
             return (new PhoneNumber)->passes($attribute, $value);
@@ -98,6 +108,18 @@ final class UtilsProvider extends ServiceProvider
         $this->app['validator']->extend('domain', function ($attribute, $value, $parameters, $validator) {
             return (new Domain)->passes($attribute, $value);
         });
+    }
+
+    protected function registerGates(): void
+    {
+        Gate::define('admin', function (User $user) {
+            if (in_array(CanBeAdmin::class, class_uses($user))) {
+                return $user->isAdmin();
+            }
+
+            return $user->is_admin;
+        });
+
     }
 
     /**
