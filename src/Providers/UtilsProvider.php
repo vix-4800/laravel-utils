@@ -78,9 +78,17 @@ final class UtilsProvider extends ServiceProvider
             return "<?php echo ($expression)->format('H:i'); ?>";
         });
 
-        Blade::directive('currency', [self::class, 'currencyDirective']);
-        Blade::directive('filesize', [self::class, 'filesizeDirective']);
-        Blade::directive('truncate', [self::class, 'truncateDirective']);
+        Blade::directive('currency', function (string $expression): string {
+            return $this->currencyDirective($expression);
+        });
+
+        Blade::directive('filesize', function (string $expression): string {
+            return $this->filesizeDirective($expression);
+        });
+
+        Blade::directive('truncate', function (string $expression): string {
+            return $this->truncateDirective($expression);
+        });
     }
 
     /**
@@ -111,6 +119,11 @@ final class UtilsProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Register the gates.
+     *
+     * @return void
+     */
     protected function registerGates(): void
     {
         Gate::define('admin', function (User $user) {
