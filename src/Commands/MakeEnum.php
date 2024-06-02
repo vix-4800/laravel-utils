@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Vix\LaravelUtils\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
-
-final class MakeEnum extends Command
+final class MakeEnum extends MakeCommand
 {
     /**
      * The name and signature of the console command.
@@ -25,31 +21,6 @@ final class MakeEnum extends Command
     protected $description = 'Create a new enum';
 
     /**
-     * Execute the console command.
-     */
-    public function handle()
-    {
-        $name = Str::studly($this->argument('name'));
-        $path = app_path("Enums/$name.php");
-
-        if (File::exists($path)) {
-            $this->error("Enum {$name} already exists!");
-            return 1;
-        }
-
-        $this->makeDirectory(dirname($path));
-
-        $stub = File::get($this->getStub());
-        $stub = str_replace('DummyEnum', $name, $stub);
-
-        File::put($path, $stub);
-
-        $this->info("Enum {$name} created successfully.");
-
-        return 0;
-    }
-
-    /**
      * Get the stub file for the generation.
      *
      * @return string
@@ -57,18 +28,5 @@ final class MakeEnum extends Command
     protected function getStub(): string
     {
         return __DIR__ . '/stubs/enum.stub';
-    }
-
-    /**
-     * Create a directory if it doesn't exist.
-     *
-     * @param string $directory
-     * @return void
-     */
-    protected function makeDirectory(string $directory)
-    {
-        if (!is_dir($directory)) {
-            mkdir($directory, 0775, true);
-        }
     }
 }
