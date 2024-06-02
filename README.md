@@ -1,6 +1,6 @@
 # Laravel-utils
 
-A comprehensive collection of utilities, helpers for Laravel.
+A collection of utilities and helpers for Laravel.
 
 ## Installation
 
