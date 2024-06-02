@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Vix\LaravelUtils\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Gate;
