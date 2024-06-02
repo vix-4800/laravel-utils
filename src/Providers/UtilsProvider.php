@@ -15,6 +15,8 @@ use Vix\LaravelUtils\Commands\{
     MakeTrait
 };
 use Vix\LaravelUtils\Enums\Currency;
+use Vix\LaravelUtils\Rules\Domain;
+use Vix\LaravelUtils\Rules\PhoneNumber;
 
 final class UtilsProvider extends ServiceProvider
 {
@@ -42,8 +44,8 @@ final class UtilsProvider extends ServiceProvider
     public function boot()
     {
         $this->registerBladeDirectives();
-
         $this->registerPublishes();
+        $this->registerRules();
     }
 
     /**
@@ -51,7 +53,7 @@ final class UtilsProvider extends ServiceProvider
      *
      * @return void
      */
-    private function registerBladeDirectives()
+    protected function registerBladeDirectives()
     {
         Blade::directive('datetime', function (string $expression): string {
             return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
@@ -75,11 +77,27 @@ final class UtilsProvider extends ServiceProvider
      *
      * @return void
      */
-    private function registerPublishes()
+    protected function registerPublishes()
     {
         $this->publishes([
             __DIR__ . '/../Commands/stubs' => base_path('resources/stubs'),
         ], 'stubs');
+    }
+
+    /**
+     * Register the validation rules.
+     *
+     * @return void
+     */
+    protected function registerRules()
+    {
+        $this->app['validator']->extend('phone_number', function ($attribute, $value, $parameters, $validator) {
+            return (new PhoneNumber)->passes($attribute, $value);
+        });
+
+        $this->app['validator']->extend('domain', function ($attribute, $value, $parameters, $validator) {
+            return (new Domain)->passes($attribute, $value);
+        });
     }
 
     /**
