@@ -10,6 +10,13 @@ use ReflectionClass;
 abstract class MakeCommand extends Command
 {
     /**
+     * The location of the stub files.
+     *
+     * @var string
+     */
+    protected string $stubLocation = __DIR__ . '/stubs/';
+
+    /**
      * Execute the console command.
      */
     public function handle(): int
@@ -27,7 +34,7 @@ abstract class MakeCommand extends Command
 
         $this->makeDirectory(dirname($path));
 
-        $stub = File::get($this->getStub());
+        $stub = File::get($this->getStub(Str::lower($targetName)));
         $stub = str_replace("Dummy{$targetName}", "{$name}{$targetName}", $stub);
 
         File::put($path, $stub);
@@ -55,7 +62,10 @@ abstract class MakeCommand extends Command
      *
      * @return string
      */
-    abstract protected function getStub(): string;
+    protected function getStub(string $type): string
+    {
+        return $this->stubLocation . "{$type}.stub";
+    }
 
     /**
      * Create a directory if it doesn't exist.

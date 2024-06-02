@@ -19,14 +19,4 @@ final class MakeEnum extends MakeCommand
      * @var string
      */
     protected $description = 'Create a new enum';
-
-    /**
-     * Get the stub file for the generation.
-     *
-     * @return string
-     */
-    protected function getStub(): string
-    {
-        return __DIR__ . '/stubs/enum.stub';
-    }
 }
