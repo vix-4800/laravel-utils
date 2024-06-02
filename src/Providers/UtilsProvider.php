@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Vix\LaravelUtils\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Vix\LaravelUtils\Commands\AuthGenerate;
+use Vix\LaravelUtils\Commands\MakeEnum;
 use Vix\LaravelUtils\Commands\MakeHelper;
 use Vix\LaravelUtils\Commands\MakeInterface;
 use Vix\LaravelUtils\Commands\MakeService;
@@ -21,11 +21,11 @@ final class UtilsProvider extends ServiceProvider
     public function register()
     {
         $this->commands([
-            AuthGenerate::class,
             MakeHelper::class,
             MakeInterface::class,
             MakeService::class,
-            MakeTrait::class
+            MakeTrait::class,
+            MakeEnum::class,
         ]);
     }
 
