@@ -20,6 +20,7 @@ use Vix\LaravelUtils\Rules\Domain;
 use Vix\LaravelUtils\Rules\PhoneNumber;
 use App\Models\User;
 use Vix\LaravelUtils\Traits\CanBeAdmin;
+use Vix\LaravelUtils\Traits\CanBeBlocked;
 
 final class UtilsProvider extends ServiceProvider
 {
@@ -31,13 +32,13 @@ final class UtilsProvider extends ServiceProvider
     public function register(): void
     {
         if ($this->app->runningInConsole()) {
-        $this->commands([
-            MakeHelper::class,
-            MakeInterface::class,
-            MakeService::class,
-            MakeTrait::class,
-            MakeEnum::class,
-        ]);
+            $this->commands([
+                MakeHelper::class,
+                MakeInterface::class,
+                MakeService::class,
+                MakeTrait::class,
+                MakeEnum::class,
+            ]);
         }
     }
 
@@ -120,6 +121,13 @@ final class UtilsProvider extends ServiceProvider
             return $user->is_admin;
         });
 
+        Gate::define('blocked', function (User $user) {
+            if (in_array(CanBeBlocked::class, class_uses($user))) {
+                return $user->isBlocked();
+            }
+
+            return false;
+        });
     }
 
     /**
